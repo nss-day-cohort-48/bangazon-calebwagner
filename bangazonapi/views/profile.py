@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-from bangazonapi.models import Order, Customer, Product
+from bangazonapi.models import Order, Customer, Product, recommendation
 from bangazonapi.models import OrderProduct, Favorite
 from bangazonapi.models import Recommendation
 from .product import ProductSerializer
@@ -358,19 +358,20 @@ class RecommenderSerializer(serializers.ModelSerializer):
     """JSON serializer for recommendations"""
     customer = CustomerSerializer()
     product = ProfileProductSerializer()
-
-    class Meta:
-        model = Recommendation
-        fields = ('id', 'product', 'customer',)
-
-class RecommendationsSerializer(serializers.ModelSerializer):
-    """JSON serializer for recommendations"""
     recommender = CustomerSerializer()
-    product = ProfileProductSerializer()
 
     class Meta:
         model = Recommendation
-        fields = ('product', "recommender",)
+        fields = ('id', 'product', 'customer', "recommender")
+
+# class RecommendationsSerializer(serializers.ModelSerializer):
+#     """JSON serializer for recommendations"""
+#     recommender = CustomerSerializer()
+#     product = ProfileProductSerializer()
+
+#     class Meta:
+#         model = Recommendation
+#         fields = ('product', "recommender",)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -381,7 +382,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     """
     user = UserSerializer(many=False)
     recommends = RecommenderSerializer(many=True)
-    recommendations = RecommendationsSerializer(many=True)
+    recommendations = RecommenderSerializer(many=True)
+    # recommendations = RecommendationsSerializer(many=True)
 
 
     class Meta:
