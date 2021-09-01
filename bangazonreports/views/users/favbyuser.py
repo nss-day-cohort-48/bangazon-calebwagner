@@ -19,8 +19,6 @@ def user_favorite_list(request):
                     f.id,
                     f.customer_id,
                     f.seller_id,
-                    c.phone_number,
-                    c.address,
                     u.id user_id,
                     u.username,
                     u.first_name || ' ' || u.last_name AS full_name,
